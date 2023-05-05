@@ -6,4 +6,16 @@ export const theme = createTheme({
   status: {
     danger: "#e53e3e",
   },
+  typography: {
+    fontFamily: "Inter",
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: "none",
+        },
+      },
+    },
+  },
 });

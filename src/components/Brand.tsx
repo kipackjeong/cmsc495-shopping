@@ -5,7 +5,7 @@ import React from "react";
 const Brand = () => {
   return (
     <>
-      <Stack sx={{ width: "44px", height: "44px" }}>
+      <Stack sx={{ position: "relative", width: "44px", height: "44px" }}>
         <Stack
           sx={{
             width: "36.35px",
@@ -15,18 +15,21 @@ const Brand = () => {
             borderRadius: "8px",
           }}
         ></Stack>
-        <Stack
-          sx={{
-            position: "absolute",
-            left: "40px",
-            backgroundColor: "primary.main",
-            borderRadius: "8px",
-          }}
-        >
-          <IconButton>
-            <ShoppingBag sx={{ color: "blue.100" }} />
-          </IconButton>
-        </Stack>
+        <div>
+          <Stack
+            sx={{
+              position: "absolute",
+              top: "0px",
+              left: "-10px",
+              backgroundColor: "primary.main",
+              borderRadius: "8px",
+            }}
+          >
+            <IconButton>
+              <ShoppingBag sx={{ color: "blue.100" }} />
+            </IconButton>
+          </Stack>
+        </div>
       </Stack>
     </>
   );

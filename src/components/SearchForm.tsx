@@ -7,7 +7,7 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-import React, { ChangeEventHandler, useState } from "react";
+import React, { useState } from "react";
 
 const SearchForm = ({}) => {
   const [searchText, setSearchText] = useState("");

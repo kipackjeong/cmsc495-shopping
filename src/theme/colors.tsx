@@ -14,7 +14,7 @@ export const palette: PaletteOptions = {
   blue: {
     100: "#E3F0FF",
   },
-  green: { main: "#00B517" },
+  green: { main: "#067D62" },
   apricot: { main: "#FFE6BF" },
   orange: { main: "#FF9017" },
   red: { main: "#FA3434" },
