@@ -8,16 +8,18 @@ export default connectMongoWrapper(async function productsIndexRoute(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log("productsIndexRoute");
+  if (req.method == "GET") {
+    let products = await ProductModel.find();
 
-  let products = await ProductModel.find();
-
-  if (products.length === 0) {
-    await seedProducts();
-    products = await ProductModel.find();
+    if (products.length === 0) {
+      await seedProducts();
+      products = await ProductModel.find();
+    }
+    return res.json({
+      message: "sucessfully fetched products",
+      data: products,
+    });
   }
-
-  return res.json({ message: "hello world", data: products });
 });
 
 async function seedProducts() {

@@ -7,10 +7,17 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 
+//TODO[epic=todos] Implement searching.
 const SearchForm = ({}) => {
   const [searchText, setSearchText] = useState("");
+  const router = useRouter();
+
+  function onSubmit() {
+    router.push({ pathname: "/product/search", query: { searchText } });
+  }
 
   const CategorySelection = () => {
     const [selectedCategory, setSelectedCategory] = useState<string>();
@@ -62,7 +69,6 @@ const SearchForm = ({}) => {
         color="primary"
         variant="contained"
         sx={{
-          textTransform: "none",
           padding: "10px",
           width: "100px",
           height: "40px",
@@ -73,13 +79,9 @@ const SearchForm = ({}) => {
     );
   };
 
-  function onFormSubmit() {
-    // call backend
-  }
-
   return (
     <Stack direction="row">
-      <form onSubmit={onFormSubmit}>
+      <form onSubmit={onSubmit}>
         <SearchBar />
         <CategorySelection />
         <SearchButton />

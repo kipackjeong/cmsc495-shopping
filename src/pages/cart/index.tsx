@@ -72,11 +72,19 @@ const CartPage = ({ cart }: { cart: Cart }) => {
     });
   }
 
-  function onDeleteClick(i: number) {
+  async function onDeleteClick(i: number) {
     setCartItems((prev) => {
       const newCartItems = [...prev];
       newCartItems.splice(i, 1);
       return newCartItems;
+    });
+    //TODO[epic=todos] delete item form user's cart
+
+    console.log("cartItems[i]: ", cartItems[i]);
+    console.log("i: ", i);
+    console.log("cartItems[i].product.id: ", cartItems[i].product.id);
+    await fetch(`/api/cart/${[cartItems[i].product.id]}`, {
+      method: "DELETE",
     });
   }
   return (
