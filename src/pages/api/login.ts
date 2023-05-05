@@ -33,6 +33,7 @@ export default withIronSessionApiRoute(async function loginRoute(req, res) {
 
     res.status(200).json({ message: "successfully logged in." });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: error });
   }
 }, sessionOptions);
