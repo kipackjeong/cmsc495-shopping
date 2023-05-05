@@ -52,7 +52,7 @@ const CheckoutPage = () => {
       sx={{
         height: "98vh",
         padding: "18px 0px",
-        backgroundColor: "grey.100",
+        backgroundColor: "mygrey.100",
       }}
     >
       <Stack direction="row" sx={{ height: "60px" }} alignItems={"center"}>

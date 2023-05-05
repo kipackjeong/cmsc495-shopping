@@ -13,7 +13,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
         justifyContent={"center"}
         alignItems={"center"}
         flex={1}
-        sx={{ backgroundColor: "grey.100" }}
+        sx={{ backgroundColor: "mygrey.100" }}
       >
         {children}
       </Stack>

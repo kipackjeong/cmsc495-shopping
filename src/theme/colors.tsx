@@ -1,18 +1,15 @@
-import { PaletteOptions } from "@mui/material";
+import { MyPaletteOptions, PaletteOptions } from "@mui/material";
 import { ColorPartial } from "@mui/material/styles/createPalette";
 
-export const palette: PaletteOptions = {
+export const palette: MyPaletteOptions = {
   dark: { main: "#1C1C1C" },
-  grey: {
+  mygrey: {
     600: "#505050",
     500: "#8B96A5",
     400: "#BDC4CD",
     300: "#DEE2E7",
     200: "#EFF2F4",
     100: "#F7FAFC",
-  },
-  blue: {
-    100: "#E3F0FF",
   },
   green: { main: "#067D62" },
   apricot: { main: "#FFE6BF" },
@@ -35,11 +32,10 @@ declare module "@mui/material/styles" {
     neutral: Palette["primary"];
   }
 
-  interface PaletteOptions {
+  interface MyPaletteOptions extends PaletteOptions {
     dark: PaletteOptions["primary"];
-    grey: PaletteOptions["grey"];
-    blue: PaletteOptions["blue"];
-    green: PaletteOptions["green"];
+    mygrey: PaletteOptions["grey"];
+    green: PaletteOptions["success"];
     apricot: PaletteOptions["primary"];
     orange: PaletteOptions["primary"];
     red: PaletteOptions["primary"];

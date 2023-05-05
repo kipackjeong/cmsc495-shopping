@@ -16,7 +16,7 @@ const Product = ({ product, ...rest }: { product: Product }) => {
       sx={{
         width: "920px",
         cursor: "pointer",
-        "&:hover": { opacity: 0.8, backgroundColor: "grey.200" },
+        "&:hover": { opacity: 0.8, backgroundColor: "mygrey.200" },
       }}
       onClick={() => {
         router.push(`/products/${product.id}`);

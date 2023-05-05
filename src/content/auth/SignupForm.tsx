@@ -121,7 +121,10 @@ const SignupForm = () => {
           <Button type="submit" color="primary" className="form__custom-button">
             Sign up
           </Button>
-          <Link style={{ cursor: "pointer", color: "grey" }} href="/auth/login">
+          <Link
+            style={{ cursor: "pointer", color: "mygrey.200" }}
+            href="/auth/login"
+          >
             Already have an account? login
           </Link>
         </Stack>

@@ -87,7 +87,7 @@ const LoginForm = () => {
           </Button>
           <Box height="20px"></Box>
           <Link
-            style={{ cursor: "pointer", color: "grey" }}
+            style={{ cursor: "pointer", color: "mygrey.200" }}
             href="/auth/signup"
           >
             Don&apos;t have an account? sign up
