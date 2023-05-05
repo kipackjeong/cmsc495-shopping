@@ -148,7 +148,7 @@ const CheckoutPage = () => {
                         Choose a delivery option:
                       </Typography1420>
                       <Stack direction="row">
-                        <BpCheckbox></BpCheckbox>
+                        <BpCheckbox defaultChecked={true} />
                         <Stack>
                           <Typography1420 color="green.main">
                             {todayString} - {threeDayLaterString}
