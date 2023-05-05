@@ -3,6 +3,8 @@ import router, { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
 const PaymentPage = () => {
+  const router = useRouter();
+
   const [time, setTime] = useState(0);
   useEffect(() => {
     const timer = setInterval(() => {

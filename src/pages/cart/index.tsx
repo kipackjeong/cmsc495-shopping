@@ -30,6 +30,8 @@ const StyledLink = styled(Link)(({ theme }) => ({
   },
 }));
 const CartPage = ({ cart }: { cart: Cart }) => {
+  const router = useRouter();
+
   const [cartItems, setCartItems] = useState(cart.items);
   const [checkedItemsIndexes, setCheckedItemsIndexes] = useState(
     Array.from({ length: cartItems.length }, (_, i) => i)

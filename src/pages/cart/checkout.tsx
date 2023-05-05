@@ -3,13 +3,14 @@ import Card from "@/ui/Card";
 import { Box, Button, Divider, Stack, Typography, styled } from "@mui/material";
 import React, { useMemo } from "react";
 
-import router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import BpCheckbox from "@/ui/CheckBox";
 import { CartItem } from "@/lib/types";
 import { Typography1824, Typography1420, Typography1214 } from "@/theme/fonts";
 
 const CheckoutPage = () => {
+  const router = useRouter();
   const checkingOutItems = useMemo(() => {
     return router.query.items ? JSON.parse(router.query.items as string) : [];
   }, [router.query.items]);
