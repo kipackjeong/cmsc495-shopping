@@ -5,6 +5,7 @@ import ProductModel from "@/lib/models/product.model";
 import connectMongo from "@/lib/connectMongo";
 import { withIronSessionSsr } from "iron-session/next";
 import { sessionOptions } from "@/lib/session";
+import { toJSON } from "@/utils/helpers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,7 +37,8 @@ export const getServerSideProps = withIronSessionSsr(async function ({
 
     await connectMongo();
     const products = await ProductModel.find();
-    const productsJSON = products.map((product) => product.toObject());
+    const productsJSON = toJSON(products);
+    console.log("productsJSON: ", productsJSON);
 
     // Pick only the necessary properties (e.g., _id, name, etc)
     const cleanProducts = productsJSON.map(

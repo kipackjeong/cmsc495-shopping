@@ -45,7 +45,6 @@ const SignupForm = () => {
     event
   ) => {
     event.preventDefault();
-    //TODO[epic=Signup] implement call api
     const response = await signup({ firstName, lastName, email, password });
     if (response.status === 409) {
       // already exists

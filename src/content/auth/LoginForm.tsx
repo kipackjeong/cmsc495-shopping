@@ -34,7 +34,6 @@ const LoginForm = () => {
   ) => {
     event.preventDefault();
 
-    //TODO[epic=login] implement call api
     const payload: LoginPayload = { email, password };
     const response = await login(payload);
     if (response.status !== 200) {
