@@ -7,7 +7,7 @@ import React from "react";
 
 const Header = () => {
   return (
-    <Card flex={1} sx={{ width: "100%" }}>
+    <Card flex={1}>
       <Stack direction="row" alignItems="center" justifyContent="center">
         <Link href="/">
           <Brand />

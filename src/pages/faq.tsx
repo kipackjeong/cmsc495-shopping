@@ -1,7 +1,9 @@
 import MainLayout from "@/layouts/MainLayout";
+import { handleSessionSsrWrapper } from "@/lib/session";
 import { Typography1420, Typography1824 } from "@/theme/fonts";
 import Card from "@/ui/Card";
 import { Box, Stack, Typography } from "@mui/material";
+import { GetServerSidePropsContext } from "next";
 import React from "react";
 
 const FAQPage = () => {
@@ -57,5 +59,9 @@ const FAQPage = () => {
     </MainLayout>
   );
 };
+
+export const getServerSideProps = handleSessionSsrWrapper(
+  async (ctx: GetServerSidePropsContext) => {}
+);
 
 export default FAQPage;

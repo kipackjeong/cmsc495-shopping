@@ -1,5 +1,14 @@
-import type { IronSessionOptions } from "iron-session";
+import { IronSessionOptions, getIronSession } from "iron-session";
 import { User, UserSession } from "./types";
+import {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse,
+} from "next";
+import UserModel from "./models/user.model";
+import { ApiError } from "next/dist/server/api-utils";
+import { withIronSessionSsr } from "iron-session/next";
+import { NextRequest, NextResponse } from "next/server";
 
 export const sessionOptions: IronSessionOptions = {
   password:
@@ -16,5 +25,44 @@ export const sessionOptions: IronSessionOptions = {
 declare module "iron-session" {
   interface IronSessionData {
     user?: UserSession;
+  }
+}
+export const handleSessionSsrWrapper =
+  (fn: any) => async (context: GetServerSidePropsContext) => {
+    console.log("handleSessionSsrWrapper");
+
+    const session = await getIronSession(
+      context.req,
+      context.res,
+      sessionOptions
+    );
+    if (!session.user) {
+      return {
+        redirect: {
+          destination: "/auth/login",
+          permanent: false,
+        },
+      };
+    }
+
+    return fn(context);
+  };
+export const handleSessionForApi = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+) => {
+  const session = await getIronSession(req, res, sessionOptions);
+  const userSession = session.user!;
+
+  const user = await UserModel.findOne({ id: userSession.id });
+  if (!user) {
+    throw new ApiError(404, "User not found.");
+  }
+  req.userId = user.id;
+};
+
+declare module "next" {
+  interface NextApiRequest {
+    userId: string;
   }
 }

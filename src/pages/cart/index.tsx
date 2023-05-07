@@ -1,6 +1,6 @@
 import MainLayout from "@/layouts/MainLayout";
 import UserModel from "@/lib/models/user.model";
-import { sessionOptions } from "@/lib/session";
+import { handleSessionSsrWrapper, sessionOptions } from "@/lib/session";
 import { Cart } from "@/lib/types";
 import { H1Text, H5Text } from "@/theme/fonts";
 import Card from "@/ui/Card";
@@ -19,6 +19,7 @@ import Image from "next/image";
 import { LinkProps } from "next/link";
 import BpCheckbox from "@/ui/CheckBox";
 import router, { useRouter } from "next/router";
+import { GetServerSidePropsContext } from "next";
 
 const StyledLink = styled(Link)(({ theme }) => ({
   color: "#007185",
@@ -89,7 +90,7 @@ const CartPage = ({ cart }: { cart: Cart }) => {
   }
   return (
     <MainLayout>
-      <Stack direction="row" width="90vw" paddingTop="20px">
+      <Stack direction="row" width="90vw">
         <Card flex={2}>
           <Stack pt="20px" pb="16px">
             <Typography
@@ -238,19 +239,12 @@ const CartPage = ({ cart }: { cart: Cart }) => {
 
 export default CartPage;
 
-export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
-  const user = req.session.user;
-  if (!user) {
-    return {
-      redirect: {
-        destination: "/auth/login",
-        permanent: false,
-      },
-    };
-  }
-  const cart = (await UserModel.findOne({ id: user.id })).cart;
+export const getServerSideProps = handleSessionSsrWrapper(
+  withIronSessionSsr(async ({ req, res }: GetServerSidePropsContext) => {
+    const cart = (await UserModel.findOne({ id: req.session!.user!.id })).cart;
 
-  return {
-    props: { cart },
-  };
-}, sessionOptions);
+    return {
+      props: { cart },
+    };
+  }, sessionOptions)
+);

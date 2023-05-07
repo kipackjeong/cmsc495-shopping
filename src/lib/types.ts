@@ -1,3 +1,5 @@
+import { NextRequest, NextResponse } from "next/server";
+
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type UserSession = Omit<User, "cart">;

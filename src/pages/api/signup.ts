@@ -1,5 +1,5 @@
 import UserModel from "@/lib/models/user.model";
-import connectMongo from "@/lib/connectMongo";
+import connectMongo from "@/lib/connect-mongo";
 import { nanoid } from "nanoid";
 import { NextApiRequest, NextApiResponse } from "next";
 import { hashPassword } from "@/lib/password";

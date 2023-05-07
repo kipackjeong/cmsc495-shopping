@@ -1,4 +1,6 @@
+import { handleSessionSsrWrapper } from "@/lib/session";
 import { Box, CircularProgress, Stack, Typography } from "@mui/material";
+import { GetServerSidePropsContext } from "next";
 import router, { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
@@ -21,12 +23,7 @@ const PaymentPage = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-    // const paymentRequest = async () => {
-    //   await fetch("api/payment");
-    //   router.push("/cart/confirmation");
-    // };
-    // paymentRequest();
-  }, []);
+  }, [router]);
 
   return (
     <Stack height="90vh" justifyContent="center" alignItems="center">
@@ -36,5 +33,13 @@ const PaymentPage = () => {
     </Stack>
   );
 };
+
+export const getServerSideProps = handleSessionSsrWrapper(
+  async (context: GetServerSidePropsContext) => {
+    return {
+      props: {},
+    };
+  }
+);
 
 export default PaymentPage;

@@ -1,23 +1,34 @@
-import { connectMongoWrapper } from "@/lib/connectMongo";
 import UserModel from "@/lib/models/user.model";
 import { sessionOptions } from "@/lib/session";
+import { ApiWrapper } from "@/lib/wrappers/api.wrapper";
 import { getIronSession } from "iron-session";
 import { NextApiRequest, NextApiResponse } from "next";
-import { NextRequest } from "next/server";
+import { ApiError } from "next/dist/server/api-utils";
 
-export default connectMongoWrapper(async function handler(
+export default ApiWrapper(async function carIdRoute(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const session = await getIronSession(req, res, sessionOptions);
-  const userSession = session.user!;
-  const user = await UserModel.findOne({ id: userSession.id });
+  const { userId } = req;
+  const user = await UserModel.findOne({ id: userId });
+  const { cart } = user!;
 
-  if (req.method == "DELETE") {
+  switch (req.method) {
+    case "GET":
+      GET();
+      break;
+    case "DELETE":
+      DELETE();
+      break;
+  }
+  async function GET() {
+    if (req.query.id) {
+    }
+    if (req.query.quantity) {
+    }
+  }
+  async function DELETE() {
     //TODO[epic=todos] implement Deleting item from the cart
-
-    const { cart } = user!;
-    console.log("req.query.id: ", req.query.id);
 
     const productId = req.query.id;
 
@@ -33,7 +44,10 @@ export default connectMongoWrapper(async function handler(
 
     user.markModified("cart");
 
-    console.log("user.cart.items: ", user.cart.items);
     await user.save();
+
+    return res
+      .status(200)
+      .json({ message: "Deleted item from the user's cart", data: productId });
   }
 });

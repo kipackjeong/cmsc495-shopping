@@ -6,8 +6,9 @@ import {
   Person,
   ShoppingCart,
 } from "@mui/icons-material";
-import React from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import NavButton from "./NavButton";
+import { useSelector } from "react-redux";
 
 const NavBar = () => {
   return (

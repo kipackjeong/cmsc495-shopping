@@ -1,10 +1,11 @@
 import ProductModel from "@/lib/models/product.model";
 import { Product } from "@/lib/types";
-import { connectMongoWrapper } from "@/lib/connectMongo";
+import { connectMongoWrapper } from "@/lib/connect-mongo";
 import { nanoid } from "nanoid";
 import { NextApiRequest, NextApiResponse } from "next";
+import { ApiWrapper } from "@/lib/wrappers/api.wrapper";
 
-export default connectMongoWrapper(async function productsIndexRoute(
+export default ApiWrapper(async function productsIndexRoute(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

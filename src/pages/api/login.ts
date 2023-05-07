@@ -1,5 +1,5 @@
 import UserModel from "@/lib/models/user.model";
-import connectMongo from "@/lib/connectMongo";
+import connectMongo from "@/lib/connect-mongo";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { checkPassword } from "@/lib/password";
 import { sessionOptions } from "@/lib/session";
@@ -31,7 +31,7 @@ export default withIronSessionApiRoute(async function loginRoute(req, res) {
 
     await req.session.save();
 
-    res.status(200).json({ message: "successfully logged in." });
+    res.status(200).json({ message: "successfully logged in.", data: user });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: error });

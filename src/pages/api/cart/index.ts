@@ -1,26 +1,28 @@
 import UserModel from "@/lib/models/user.model";
-import { connectMongoWrapper } from "@/lib/connectMongo";
+import { connectMongoWrapper } from "@/lib/connect-mongo";
 import { getIronSession } from "iron-session";
 import { NextApiRequest, NextApiResponse } from "next";
 import { sessionOptions } from "@/lib/session";
 import { User } from "@/lib/types";
+import { ApiWrapper } from "@/lib/wrappers/api.wrapper";
 
-export default connectMongoWrapper(async function productsIndexRoute(
+export default ApiWrapper(async function cartIndexRoute(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const session = await getIronSession(req, res, sessionOptions);
-  const userSession = session.user!;
-  const user = await UserModel.findOne({ id: userSession.id });
+  const { userId } = req;
+  const user = await UserModel.findOne({ id: userId });
+  const { cart } = user;
 
-  if (!user) {
-    return res.status(404).json({ message: "User not found" });
+  // Get all the products in cart
+  if (req.method == "GET") {
+    return res
+      .status(200)
+      .json({ message: "Fetched user's cart", data: user.cart });
   }
-
-  if (req.method == "POST") {
+  // Adding product into cart
+  else if (req.method == "POST") {
     const { product, quantity } = req.body;
-    const { cart } = user;
-
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -38,8 +40,6 @@ export default connectMongoWrapper(async function productsIndexRoute(
     user.markModified("cart");
     await user.save();
 
-    return res
-      .status(200)
-      .json({ message: "Product added to cart", cart: user.cart });
+    return res.status(200).json({ message: "Product added to cart" });
   }
 });

@@ -8,6 +8,8 @@ import Image from "next/image";
 import BpCheckbox from "@/ui/CheckBox";
 import { CartItem } from "@/lib/types";
 import { Typography1824, Typography1420, Typography1214 } from "@/theme/fonts";
+import { handleSessionSsrWrapper } from "@/lib/session";
+import { GetServerSidePropsContext } from "next";
 
 const CheckoutPage = () => {
   const router = useRouter();
@@ -238,3 +240,11 @@ const CheckoutPage = () => {
 };
 
 export default CheckoutPage;
+
+export const getServerSideProps = handleSessionSsrWrapper(
+  async (context: GetServerSidePropsContext) => {
+    return {
+      props: {},
+    };
+  }
+);

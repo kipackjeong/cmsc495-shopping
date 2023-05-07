@@ -2,10 +2,11 @@ import { Inter } from "next/font/google";
 import ProductsListView from "@/content/main/ProductsListView";
 import MainLayout from "@/layouts/MainLayout";
 import ProductModel from "@/lib/models/product.model";
-import connectMongo from "@/lib/connectMongo";
+import connectMongo, { connectMongoWrapper } from "@/lib/connect-mongo";
 import { withIronSessionSsr } from "iron-session/next";
-import { sessionOptions } from "@/lib/session";
+import { handleSessionSsrWrapper, sessionOptions } from "@/lib/session";
 import { toJSON } from "@/utils/helpers";
+import { GetServerSidePropsContext } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,53 +18,39 @@ export default function Home({ products }: { products: any[] }) {
   );
 }
 
-export const getServerSideProps = withIronSessionSsr(async function ({
-  req,
-  res,
-}): Promise<any> {
-  try {
-    console.log("req.session.user: ", req.session.user);
+export const getServerSideProps = handleSessionSsrWrapper(
+  connectMongoWrapper(async function ({
+    req,
+    res,
+  }: GetServerSidePropsContext): Promise<any> {
+    try {
+      const products = await ProductModel.find();
+      const productsJSON = toJSON(products);
 
-    const { user } = req.session;
+      // Pick only the necessary properties (e.g., _id, name, etc)
+      const cleanProducts = productsJSON.map(
+        ({ id, title, description, category, image, price, rating }) => ({
+          id,
+          title,
+          description,
+          category,
+          image,
+          price,
+          rating,
+        })
+      );
 
-    if (!user) {
       return {
-        redirect: {
-          destination: "/auth/login",
-          permanent: false,
+        props: {
+          products: cleanProducts,
         },
       };
+    } catch (error) {
+      console.log(error);
     }
 
-    await connectMongo();
-    const products = await ProductModel.find();
-    const productsJSON = toJSON(products);
-    console.log("productsJSON: ", productsJSON);
-
-    // Pick only the necessary properties (e.g., _id, name, etc)
-    const cleanProducts = productsJSON.map(
-      ({ id, title, description, category, image, price, rating }) => ({
-        id,
-        title,
-        description,
-        category,
-        image,
-        price,
-        rating,
-      })
-    );
-
     return {
-      props: {
-        products: cleanProducts,
-      },
+      props: {},
     };
-  } catch (error) {
-    console.log(error);
-  }
-
-  return {
-    props: {},
-  };
-},
-sessionOptions);
+  })
+);

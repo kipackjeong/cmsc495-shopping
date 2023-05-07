@@ -1,9 +1,11 @@
 import MainLayout from "@/layouts/MainLayout";
+import { handleSessionSsrWrapper } from "@/lib/session";
 import { CartItem } from "@/lib/types";
 import { Typography1214, Typography1420, Typography1824 } from "@/theme/fonts";
 import Card from "@/ui/Card";
 import { CheckRounded } from "@mui/icons-material";
 import { Divider, Stack } from "@mui/material";
+import { GetServerSidePropsContext } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useMemo } from "react";
@@ -56,5 +58,13 @@ const CheckoutCompletePage = () => {
     </MainLayout>
   );
 };
+
+export const getServerSideProps = handleSessionSsrWrapper(
+  async (context: GetServerSidePropsContext) => {
+    return {
+      props: {},
+    };
+  }
+);
 
 export default CheckoutCompletePage;

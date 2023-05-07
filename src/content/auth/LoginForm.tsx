@@ -17,6 +17,7 @@ import { User } from "@/lib/types";
 
 const LoginForm = () => {
   const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -35,11 +36,16 @@ const LoginForm = () => {
     event.preventDefault();
 
     const payload: LoginPayload = { email, password };
+
     const response = await login(payload);
+
     if (response.status !== 200) {
-      const result: { message: string } = await response.json();
+      const result: { message: string; data: User } = await response.json();
       setError(result.message);
     } else {
+      // update client state
+      const user = (await response.json()).data;
+
       router.push("/");
     }
   };

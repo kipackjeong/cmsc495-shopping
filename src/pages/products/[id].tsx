@@ -1,5 +1,7 @@
 import MainLayout from "@/layouts/MainLayout";
+import { connectMongoWrapper } from "@/lib/connect-mongo";
 import ProductModel from "@/lib/models/product.model";
+import { handleSessionSsrWrapper, sessionOptions } from "@/lib/session";
 import { Product } from "@/lib/types";
 import { BodyDefault, H3Text, H4Text, H5Text } from "@/theme/fonts";
 import Card from "@/ui/Card";
@@ -13,8 +15,11 @@ import {
   TextField,
   makeStyles,
 } from "@mui/material";
+import { withIronSessionSsr } from "iron-session/next";
 import Image from "next/image";
-import React, { useState } from "react";
+import { session } from "passport";
+import React, { useContext, useState } from "react";
+import { useDispatch } from "react-redux";
 
 const ProductPage = ({ product }: { product: Product }) => {
   const [quantity, setQuantity] = useState(1);
@@ -25,8 +30,8 @@ const ProductPage = ({ product }: { product: Product }) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ product, quantity }),
     });
+
     const data = await res.json();
-    console.log(data);
   }
   function onMinusClick() {
     if (quantity != 0) setQuantity(quantity - 1);
@@ -119,21 +124,22 @@ const ProductPage = ({ product }: { product: Product }) => {
 
 export default ProductPage;
 
-export async function getServerSideProps(context: any) {
-  const { query, req, res } = context;
+export const getServerSideProps = handleSessionSsrWrapper(
+  connectMongoWrapper(async (context: any) => {
+    const { query, req, res } = context;
+    const id = query.id;
 
-  const id = query.id;
+    let product;
+    try {
+      product = await ProductModel.findOne({ id: id }, { _id: 0 });
+    } catch (error) {
+      res.writeHead(302, { Location: "/404" });
+      res.end();
+      return { props: {} };
+    }
 
-  let product;
-  try {
-    product = await ProductModel.findOne({ id: id }, { _id: 0 });
-  } catch (error) {
-    res.writeHead(302, { Location: "/404" });
-    res.end();
-    return { props: {} };
-  }
-
-  return {
-    props: { product: product.toObject() },
-  };
-}
+    return {
+      props: { product: product.toObject() },
+    };
+  })
+);

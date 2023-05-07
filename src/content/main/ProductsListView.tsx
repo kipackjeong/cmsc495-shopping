@@ -6,7 +6,6 @@ import { Product } from "@/lib/types";
 import { useRouter } from "next/router";
 
 const Product = ({ product, ...rest }: { product: Product }) => {
-  console.log(product);
   const router = useRouter();
   return (
     <Stack
