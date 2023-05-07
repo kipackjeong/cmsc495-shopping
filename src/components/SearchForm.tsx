@@ -20,17 +20,6 @@ const CategorySelection = () => {
   return (
     <FormControl>
       <InputLabel id="demo-simple-select-label">Category</InputLabel>
-      <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={"category"}
-        label="Category"
-        onChange={handleChange}
-        sx={{ width: "145px", height: "40px" }}
-      >
-        <MenuItem value={10}>electronics</MenuItem>
-        <MenuItem value={20}>furnitures</MenuItem>
-      </Select>
     </FormControl>
   );
 };

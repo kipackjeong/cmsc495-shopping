@@ -45,6 +45,7 @@ const LoginForm = () => {
     } else {
       // update client state
       const user = (await response.json()).data;
+      
 
       router.push("/");
     }
