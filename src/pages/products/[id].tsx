@@ -19,7 +19,6 @@ import { withIronSessionSsr } from "iron-session/next";
 import Image from "next/image";
 import { session } from "passport";
 import React, { useContext, useState } from "react";
-import { useDispatch } from "react-redux";
 
 const ProductPage = ({ product }: { product: Product }) => {
   const [quantity, setQuantity] = useState(1);
